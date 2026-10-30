@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고생대의 환경과 생물 - 통합과학 발표</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: #141c33;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-cyan: #38bdf8;
+      --accent-red: #f87171;
+      --paleo-sea: #0e3a5a;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: var(--bg-dark);
+      color: #f3f4f6;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .font-title {
+      font-family: 'Gowun Dodum', sans-serif;
+    }
+
+    /* Glassmorphic Cards */
+    .glass-card {
+      background: rgba(20, 28, 51, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-4px);
+    }
+
+    /* Custom Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes swim {
+      0% { transform: translateX(-10px) translateY(0px) scaleX(1); }
+      50% { transform: translateX(15px) translateY(-8px) scaleX(1); }
+      100% { transform: translateX(-10px) translateY(0px) scaleX(1); }
+    }
+    .animate-swim {
+      animation: swim 6s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.4)); }
+      50% { filter: drop-shadow(0 0 25px rgba(52, 211, 153, 0.8)); }
+    }
+    .animate-glow {
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    /* Hyperactive Trilobite Scuttle Animation */
+    @keyframes hyperScuttle {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(40px, -20px) rotate(15deg); }
+      20% { transform: translate(90px, 10px) rotate(-10deg); }
+      30% { transform: translate(140px, -30px) rotate(25deg); }
+      40% { transform: translate(200px, 0px) rotate(-15deg); }
+      50% { transform: translate(260px, -40px) rotate(30deg) scale(1.1); }
+      60% { transform: translate(200px, 10px) rotate(-20deg); }
+      70% { transform: translate(120px, -15px) rotate(10deg); }
+      80% { transform: translate(50px, 5px) rotate(-5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .animate-hyper-scuttle {
+      animation: hyperScuttle 3.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    }
+
+    /* Apocalyptic Screen Shake */
+    @keyframes apocalypseShake {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-8px, 6px) rotate(-1deg); }
+      20% { transform: translate(8px, -6px) rotate(1deg); }
+      30% { transform: translate(-6px, -4px) rotate(0.5deg); }
+      40% { transform: translate(6px, 4px) rotate(-0.5deg); }
+      50% { transform: translate(-10px, 8px) rotate(-1.5deg); }
+      60% { transform: translate(10px, -8px) rotate(1.5deg); }
+      70% { transform: translate(-4px, 2px) rotate(0deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .shake-screen {
+      animation: apocalypseShake 0.4s ease-in-out infinite;
+    }
+
+    /* Tooltip styling */
+    .tooltip-box {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(10px);
+      z-index: 50;
+    }
+    .has-tooltip:hover .tooltip-box {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f293d;
+      border-radius: 5px;
+      border: 2px solid var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative">
+
+  <!-- Audio Toggle Floating Button -->
+  <div class="fixed top-5 right-5 z-50">
+    <button id="sfxToggle" class="flex items-center gap-2 bg-slate-800/90 hover:bg-slate-700 text-amber-400 border border-amber-400/30 px-4 py-2 rounded-full shadow-lg text-sm font-bold backdrop-blur transition-all">
+      <span id="sfxIcon">🔊</span>
+      <span id="sfxText">사운드 ON</span>
+    </button>
+  </div>
+
+  <!-- Sticky Header Navigation -->
+  <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-400 font-black text-lg">
+          古
+        </div>
+        <span class="font-title text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400">
+          고생대의 환경과 생물
+        </span>
+      </div>
+      <nav class="hidden md:flex gap-4 text-xs font-medium text-slate-300">
+        <a href="#sec1" class="hover:text-emerald-400 transition">① 시대 구분</a>
+        <a href="#sec2" class="hover:text-emerald-400 transition">② 기후</a>
+        <a href="#sec3" class="hover:text-emerald-400 transition">③ 대기·해양</a>
+        <a href="#sec4" class="hover:text-emerald-400 transition">④ 수륙 분포</a>
+        <a href="#sec5" class="hover:text-emerald-400 transition">⑤ 대표 동물</a>
+        <a href="#sec6" class="hover:text-emerald-400 transition">⑥ 대표 식물</a>
+        <a href="#sec7" class="hover:text-emerald-400 transition">⑦ 표준 화석</a>
+        <a href="#sec8" class="hover:text-emerald-400 transition">⑧ 시대 말 사건</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section: Epic Interactive Prehistoric Panorama -->
+  <section class="relative min-h-[85vh] flex flex-col justify-center items-center overflow-hidden px-4 py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <!-- Atmospheric Background Canvas -->
+    <canvas id="heroCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-60"></canvas>
+    
+    <div class="relative z-10 text-center max-w-4xl mx-auto mb-8">
+      <span class="inline-block px-4 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 mb-4 tracking-wider">
+        고등학교 통합과학 발표 자료 | 4반 1모둠
+      </span>
+      <h1 class="font-title text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+        생명의 대폭발과 <br class="hidden sm:inline">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400">
+          육상 대진출의 시대, 고생대
+        </span>
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+        약 5억 4,100만 년 전부터 2억 5,200만 년 전까지! 바다에서부터 오존층을 타고 육지로 퍼져나간 생명체의 대탐험을 시각적인 그래픽으로 만나보세요.
+      </p>
+    </div>
+
+    <!-- Interactive Hero SVG Panorama (Ocean Floor to Land Transition) -->
+    <div class="relative z-10 w-full max-w-5xl rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl bg-slate-900/90">
+      <svg viewBox="0 0 1000 420" class="w-full h-auto select-none" shape-rendering="geometricPrecision">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f172a"/>
+            <stop offset="40%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f4c5c"/>
+          </linearGradient>
+          <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0284c7" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#0369a1" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#0c4a6e"/>
+          </linearGradient>
+          <linearGradient id="ozoneGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c084fc" stop-opacity="0.0"/>
+            <stop offset="50%" stop-color="#c084fc" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sky Background -->
+        <rect x="0" y="0" width="1000" height="220" fill="url(#skyGrad)"/>
+
+        <!-- Ozone Layer Effect -->
+        <rect x="250" y="30" width="750" height="25" fill="url(#ozoneGrad)" rx="12" class="animate-pulse"/>
+        <text x="625" y="47" fill="#e9d5ff" font-size="11" font-weight="bold" text-anchor="middle" letter-spacing="1">
+          🛡️ 자외선을 차단하는 오존층(O₃) 형성
+        </text>
+
+        <!-- Paleozoic Land (Right) -->
+        <path d="M 500 220 Q 650 180 800 190 T 1000 170 L 1000 420 L 500 420 Z" fill="#1c2d1b"/>
+        <path d="M 500 220 Q 650 180 800 190 T 1000 170" fill="none" stroke="#34d399" stroke-width="4"/>
+
+        <!-- Giant Tree Ferns on Land (Right Side) -->
+        <g class="has-tooltip cursor-pointer">
+          <!-- Giant Fern Tree 1 -->
+          <path d="M 720 200 Q 715 130 720 80" stroke="#451a03" stroke-width="12" stroke-linecap="round"/>
+          <!-- Fronds -->
+          <path d="M 720 80 Q 660 60 640 90 M 720 80 Q 680 40 660 30 M 720 80 Q 760 40 780 30 M 720 80 Q 780 60 800 90 M 720 80 Q 720 30 720 10" stroke="#22c55e" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="720" cy="80" r="22" fill="#16a34a" opacity="0.6"/>
+          <text x="720" y="195" fill="#86efac" font-size="10" font-weight="bold" text-anchor="middle">거대 양치식물 숲</text>
+        </g>
+
+        <!-- Sea Waters (Left to Middle) -->
+        <path d="M 0 160 Q 250 140 520 220 L 520 420 L 0 420 Z" fill="url(#seaGrad)"/>
+        <!-- Sea Surface Line -->
+        <path d="M 0 160 Q 250 140 520 220" fill="none" stroke="#7dd3fc" stroke-width="3" stroke-dasharray="8 4"/>
+
+        <!-- Sea Floor Bed -->
+        <path d="M 0 380 Q 200 370 520 400 L 520 420 L 0 420 Z" fill="#1b2a38"/>
+        <!-- Rocks on Sea Floor -->
+        <path d="M 80 385 Q 110 350 140 385 Z" fill="#334155"/>
+        <path d="M 280 390 Q 310 360 350 395 Z" fill="#334155"/>
+
+        <!-- Swimming / Crawling Marine Organisms -->
+        <!-- Trilobite 1 (Swimming in water) -->
+        <g class="has-tooltip animate-swim cursor-pointer" transform="translate(180, 240)">
+          <!-- Detailed SVG Trilobite -->
+          <ellipse cx="0" cy="0" rx="22" ry="15" fill="#d97706" stroke="#fbbf24" stroke-width="2"/>
+          <!-- Cephalon (Head) -->
+          <path d="M -22 0 Q -10 -16 10 -15 Q 22 -5 22 0 Z" fill="#b45309"/>
+          <!-- Compound Eyes -->
+          <circle cx="-10" cy="-7" r="3" fill="#fef08a"/>
+          <circle cx="-10" cy="7" r="3" fill="#fef08a"/>
+          <!-- Segments -->
+          <line x1="-5" y1="-14" x2="-5" y2="14" stroke="#78350f" stroke-width="2"/>
+          <line x1="3" y1="-13" x2="3" y2="13" stroke="#78350f" stroke-width="2"/>
+          <line x1="11" y1="-10" x2="11" y2="10" stroke="#78350f" stroke-width="2"/>
+          <!-- Antennae -->
+          <path d="M -20 -5 Q -32 -12 -38 -8" stroke="#fde047" stroke-width="1.5" fill="none"/>
+          <path d="M -20 5 Q -32 12 -38 8" stroke="#fde047" stroke-width="1.5" fill="none"/>
+          <!-- Label -->
+          <text x="0" y="26" fill="#fef08a" font-size="10" font-weight="bold" text-anchor="middle">삼엽충 (Trilobite)</text>
+        </g>
+
+        <!-- Brachiopod anchored on rock -->
+        <g class="has-tooltip cursor-pointer" transform="translate(110, 365)">
+          <!-- Pedicle -->
+          <path d="M 0 10 Q -5 20 -8 25" stroke="#f43f5e" stroke-width="4" stroke-linecap="round"/>
+          <!-- Shell Valves -->
+          <path d="M -18 10 Q 0 -15 18 10 Q 0 15 -18 10 Z" fill="#e11d48" stroke="#fda4af" stroke-width="2"/>
+          <path d="M -12 8 Q 0 -8 12 8" fill="none" stroke="#fff" stroke-width="1" opacity="0.6"/>
+          <text x="0" y="-18" fill="#fda4af" font-size="10" font-weight="bold" text-anchor="middle">완족류 (Brachiopod)</text>
+        </g>
+
+        <!-- Fusulinid / Micro fossil in reef -->
+        <g class="has-tooltip cursor-pointer" transform="translate(310, 380)">
+          <ellipse cx="0" cy="0" rx="14" ry="7" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="-10" y1="0" x2="10" y2="0" stroke="#cbd5e1" stroke-dasharray="2 2"/>
+          <text x="0" y="-12" fill="#cbd5e1" font-size="10" font-weight="bold" text-anchor="middle">방주충 (Fusulinid)</text>
+        </g>
+
+        <!-- Oxygen Bubbles Rising -->
+        <circle cx="150" cy="280" r="3" fill="#7dd3fc" opacity="0.7" class="animate-bounce"/>
+        <circle cx="160" cy="220" r="4" fill="#7dd3fc" opacity="0.8" class="animate-bounce" style="animation-delay: 0.3s;"/>
+        <circle cx="300" cy="260" r="5" fill="#7dd3fc" opacity="0.6" class="animate-bounce" style="animation-delay: 0.7s;"/>
+
+        <!-- Explanatory Banner overlaid -->
+        <rect x="20" y="20" width="220" height="36" rx="8" fill="#0f172a" opacity="0.85" stroke="#334155"/>
+        <text x="32" y="42" fill="#38bdf8" font-size="11" font-weight="bold">
+          🌊 따뜻하고 넓은 얕은 바다 (고생대 초·중기)
+        </text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Main Content Body -->
+  <main class="max-w-6xl mx-auto px-4 py-12 space-y-24">
+
+    <!-- SECTION 1: ① 시대 구분 -->
+    <section id="sec1" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-lg">
+          ①
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">시대 구분 (Era Division & Ratio)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <!-- Interactive Pie Chart SVG -->
+        <div class="flex flex-col items-center justify-center bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+          <h3 class="text-sm font-bold text-slate-300 mb-4 text-center">
+            지구 역사(46억 년) 중 고생대가 차지하는 비율
+          </h3>
+          <svg viewBox="0 0 200 200" class="w-56 h-56 select-none cursor-pointer group">
+            <!-- Whole Earth Circle (93.7%) -->
+            <circle cx="100" cy="100" r="80" fill="#334155" stroke="#1e293b" stroke-width="4"/>
+            <!-- Paleozoic Slice (6.3% -> Angle: ~22.68 deg) -->
+            <!-- Path for 6.3% slice popping out -->
+            <path id="pieSlice" d="M 100 100 L 100 20 A 80 80 0 0 1 131 26 Z" 
+                  fill="#34d399" stroke="#059669" stroke-width="3"
+                  class="transition-transform duration-500 ease-out transform origin-[100px_100px] group-hover:scale-110 group-hover:translate-x-2 group-hover:-translate-y-2"/>
+            <!-- Center Label -->
+            <circle cx="100" cy="100" r="42" fill="#0f172a"/>
+            <text x="100" y="95" fill="#34d399" font-size="18" font-weight="extrabold" text-anchor="middle">약 6.3%</text>
+            <text x="100" y="115" fill="#94a3b8" font-size="10" text-anchor="middle">2.89억 년 지속</text>
+          </svg>
+          <p class="text-xs text-emerald-400 font-medium mt-3">
+            💡 마우스를 올려 6.3% 고생대 조각을 확인해보세요!
+          </p>
+        </div>
+
+        <!-- Crawling Trilobite Animation & Facts -->
+        <div class="space-y-4">
+          <div class="bg-slate-900/80 p-4 rounded-xl border-l-4 border-emerald-400 space-y-2">
+            <h4 class="font-bold text-emerald-300 text-sm">🗓️ 시작 및 종료 시기</h4>
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              약 <b class="text-emerald-400">5억 4,100만 년 전</b>에 시작되어 약 <b class="text-emerald-400">2억 5,200만 년 전</b>까지 약 2억 8,900만 년 동안 지속되었습니다.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/80 p-4 rounded-xl border-l-4 border-sky-400 space-y-2">
+            <h4 class="font-bold text-sky-300 text-sm">💥 시대를 나누는 기준 사건</h4>
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              <b class="text-sky-300">캄브리아기 폭발(Cambrian Explosion)</b>과 함께 무척추동물을 비롯한 다채로운 해양 생물이 폭발적으로 등장하며 고생대가 시작되었습니다.
+            </p>
+          </div>
+
+          <!-- Crawling Trilobite Track -->
+          <div class="relative bg-slate-950 p-3 rounded-xl border border-slate-800 overflow-hidden">
+            <span class="text-[10px] text-slate-400 font-bold block mb-1">고생대 시작 선로 (5.41억 년 전)</span>
+            <div class="relative h-10 w-full bg-slate-900 rounded-lg flex items-center px-2">
+              <div id="crawlingTrilobite" class="absolute transition-all duration-300 cursor-pointer">
+                <!-- Cute Walking Trilobite SVG -->
+                <svg viewBox="0 0 50 30" class="w-10 h-6">
+                  <ellipse cx="25" cy="15" rx="20" ry="10" fill="#f59e0b" stroke="#fef08a" stroke-width="1.5"/>
+                  <circle cx="12" cy="10" r="2.5" fill="#000"/>
+                  <circle cx="12" cy="20" r="2.5" fill="#000"/>
+                  <line x1="20" y1="5" x2="20" y2="25" stroke="#78350f" stroke-width="1"/>
+                  <line x1="28" y1="6" x2="28" y2="24" stroke="#78350f" stroke-width="1"/>
+                  <line x1="35" y1="8" x2="35" y2="22" stroke="#78350f" stroke-width="1"/>
+                </svg>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 text-right mt-1">삼엽충이 기어가는 모습을 관찰하세요!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: ② 기후 -->
+    <section id="sec2" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/40 flex items-center justify-center font-bold text-lg">
+          ②
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">고생대의 기후 (Climate & Ice Ages)</h2>
+      </div>
+
+      <!-- Climate Interactive Toggle Slider / Buttons -->
+      <div class="mb-6 flex flex-wrap gap-3 justify-center">
+        <button id="btnWarm" onclick="setClimate('warm')" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20 transition">
+          ☀️ 전반적 기후 (온난·습윤)
+        </button>
+        <button id="btnIce1" onclick="setClimate('ice1')" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+          ❄️ 1차 빙하기 (약 4.4억 년 전)
+        </button>
+        <button id="btnIce2" onclick="setClimate('ice2')" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+          🧊 2차 빙하기 (약 3.6억~2.6억 년 전)
+        </button>
+      </div>
+
+      <!-- Ice Advance / Retreat Interactive Ocean SVG -->
+      <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-900">
+        <svg viewBox="0 0 800 300" class="w-full h-auto select-none">
+          <!-- Sky Gradient -->
+          <rect id="climateSky" x="0" y="0" width="800" height="180" fill="#0f172a" class="transition-colors duration-700"/>
+          
+          <!-- Sun / Frozen Sun -->
+          <circle id="climateSun" cx="700" cy="50" r="30" fill="#fbbf24" class="transition-all duration-700"/>
+
+          <!-- Sea Water -->
+          <rect x="0" y="160" width="800" height="140" fill="#0284c7" class="transition-colors duration-700"/>
+          
+          <!-- Advancing/Retreating Ice Sheet (Left) -->
+          <path id="iceSheetLeft" d="M 0 60 Q 100 120 0 260 Z" fill="#f0f9ff" opacity="0" class="transition-all duration-700 ease-in-out"/>
+          <!-- Advancing/Retreating Ice Sheet (Right) -->
+          <path id="iceSheetRight" d="M 800 60 Q 700 120 800 260 Z" fill="#f0f9ff" opacity="0" class="transition-all duration-700 ease-in-out"/>
+
+          <!-- Sea Floor Bed & Sea Organisms -->
+          <path d="M 0 270 Q 400 260 800 280 L 800 300 L 0 300 Z" fill="#1e293b"/>
+          
+          <!-- Floating Trilobite in Water -->
+          <g transform="translate(400, 210)">
+            <ellipse cx="0" cy="0" rx="18" ry="12" fill="#d97706"/>
+            <circle cx="-8" cy="-5" r="2" fill="#fff"/>
+            <circle cx="-8" cy="5" r="2" fill="#fff"/>
+          </g>
+
+          <!-- Status Overlay Box -->
+          <rect x="30" y="25" width="340" height="70" rx="10" fill="#0f172a" opacity="0.85" stroke="#334155"/>
+          <text id="climateTitle" x="45" y="50" fill="#34d399" font-size="14" font-weight="bold">온난하고 습윤한 대표 기후</text>
+          <text id="climateDesc" x="45" y="72" fill="#cbd5e1" font-size="11">대체로 따뜻하고 습해 해양 무척추동물이 번성함</text>
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-amber-300 text-sm mb-1">🌡️ 전반적인 기후 특징</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            고생대는 대체로 <b class="text-amber-300">온난하고 습윤</b>한 기후가 지속되어 넓고 얕은 바다에 풍부한 생태계가 형성되었습니다.
+          </p>
+        </div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-sky-300 text-sm mb-1">🧊 2번의 대빙하기</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            오르도비스기 말(<b class="text-sky-300">약 4억 4,000만 년 전</b>)과 석탄기~페름기(<b class="text-sky-300">약 3억 6,000만~2억 6,000만 년 전</b>)에 극심한 빙하기가 찾아왔습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ③ 대기·해양 환경 -->
+    <section id="sec3" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/40 flex items-center justify-center font-bold text-lg">
+          ③
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">대기 · 해양 환경 (Atmosphere & Ocean)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <!-- Ocean Cross Section with Sea Level Change Animation -->
+        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 flex flex-col items-center">
+          <h3 class="text-xs font-bold text-teal-300 mb-3">🌊 해수면 높이 변화 단면도 (해침과 해퇴)</h3>
+          
+          <svg viewBox="0 0 400 240" class="w-full h-auto select-none rounded-xl bg-slate-950">
+            <!-- Land Profile -->
+            <path d="M 0 180 Q 150 160 250 100 Q 320 60 400 40 L 400 240 L 0 240 Z" fill="#1e293b"/>
+            
+            <!-- Dynamic Sea Level Line & Water Fill -->
+            <path id="seaLevelWater" d="M 0 100 Q 150 100 250 100 L 250 240 L 0 240 Z" fill="#0284c7" opacity="0.7" class="transition-all duration-1000 ease-in-out"/>
+            <line id="seaLevelLine" x1="0" y1="100" x2="300" y2="100" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6 4" class="transition-all duration-1000 ease-in-out"/>
+            
+            <!-- Shallow Sea Bed Organism -->
+            <circle cx="120" cy="190" r="6" fill="#fbbf24"/>
+            <text x="120" y="210" fill="#cbd5e1" font-size="9" text-anchor="middle">얕은 바다 서식지</text>
+
+            <text id="seaLevelStatus" x="20" y="30" fill="#38bdf8" font-size="12" font-weight="bold">
+              현재 해수면: 상승 상태 (넓은 얕은 바다 형성)
+            </text>
+          </svg>
+
+          <div class="flex gap-2 mt-4">
+            <button onclick="toggleSeaLevel('high')" class="px-3 py-1.5 rounded-lg bg-teal-500/20 text-teal-300 text-xs font-bold border border-teal-500/30 hover:bg-teal-500/40">
+              ⬆️ 해수면 상승 (고생대 초·중기)
+            </button>
+            <button onclick="toggleSeaLevel('low')" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700 hover:bg-slate-700">
+              ⬇️ 해수면 하강 (고생대 말기)
+            </button>
+          </div>
+        </div>
+
+        <!-- Atmospheric Gas Concentration Bars -->
+        <div class="space-y-4">
+          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold">
+              <span class="text-emerald-400">🌿 대기 중 산소(O₂) 농도</span>
+              <span class="text-emerald-300">급격히 상승 (약 30% 도달)</span>
+            </div>
+            <!-- Progress bar for O2 -->
+            <div class="w-full h-4 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+              <div class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full w-[85%] transition-all duration-1000"></div>
+            </div>
+            <p class="text-[11px] text-slate-400">
+              육상 식물의 폭발적 번성으로 산소 농도가 급증하여 대형 곤충(메가네우라 등)이 등장했습니다.
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="flex justify-between text-xs font-bold">
+              <span class="text-amber-400">🌋 대기 중 이산화탄소(CO₂) 농도</span>
+              <span class="text-amber-300">광합성으로 지속 감소</span>
+            </div>
+            <!-- Progress bar for CO2 -->
+            <div class="w-full h-4 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+              <div class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full w-[35%] transition-all duration-1000"></div>
+            </div>
+            <p class="text-[11px] text-slate-400">
+              거대 양치식물 숲의 왕성한 광합성으로 온실가스(CO₂)가 감소하여 기후 변화를 유도했습니다.
+            </p>
+          </div>
+
+          <div class="p-3 bg-purple-950/40 border border-purple-500/30 rounded-xl flex items-center gap-3">
+            <div class="text-2xl">🛡️</div>
+            <div>
+              <h5 class="text-xs font-bold text-purple-300">오존층(O₃)의 완성</h5>
+              <p class="text-[11px] text-slate-300">
+                산소 축적으로 형성된 오존층이 유해 자외선을 차단해 생물들이 바다에서 **육지로 진출**하게 되었습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ④ 수륙 분포 -->
+    <section id="sec4" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold text-lg">
+          ④
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">수륙 분포와 초대륙 판게아</h2>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <!-- Interactive Continental Drift SVG -->
+        <div class="relative w-full max-w-3xl rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-2">
+          <svg viewBox="0 0 600 300" class="w-full h-auto select-none">
+            <!-- Ocean background -->
+            <rect x="0" y="0" width="600" height="300" fill="#0b253a" rx="12"/>
+            
+            <!-- Grid lines for map feel -->
+            <line x1="300" y1="0" x2="300" y2="300" stroke="#1e3a5f" stroke-dasharray="4 4"/>
+            <line x1="0" y1="150" x2="600" y2="150" stroke="#1e3a5f" stroke-dasharray="4 4"/>
+
+            <!-- Landmass 1: Laurentia -->
+            <path id="landLaurentia" d="M 80 60 Q 140 40 180 90 Q 150 140 70 120 Z" fill="#d97706" stroke="#fbbf24" stroke-width="2" class="transition-all duration-1000 ease-in-out"/>
+            <text id="labelL" x="120" y="90" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">로렌시아</text>
+
+            <!-- Landmass 2: Gondwana -->
+            <path id="landGondwana" d="M 380 160 Q 480 120 520 220 Q 420 270 340 210 Z" fill="#059669" stroke="#34d399" stroke-width="2" class="transition-all duration-1000 ease-in-out"/>
+            <text id="labelG" x="430" y="200" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">곤드와나</text>
+
+            <!-- Landmass 3: Baltica -->
+            <path id="landBaltica" d="M 240 70 Q 290 50 310 100 Q 260 120 220 90 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2" class="transition-all duration-1000 ease-in-out"/>
+            <text id="labelB" x="260" y="85" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">발티카</text>
+
+            <!-- Title Overlay -->
+            <rect x="15" y="15" width="220" height="30" rx="6" fill="#0f172a" opacity="0.8" stroke="#334155"/>
+            <text id="driftStatus" x="25" y="34" fill="#fbbf24" font-size="11" font-weight="bold">
+              고생대 초·중기: 대륙 분산 상태
+            </text>
+          </svg>
+        </div>
+
+        <!-- Buttons to trigger continent drift -->
+        <div class="flex gap-4 mt-6">
+          <button id="btnSplitLand" onclick="setContinentState('split')" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 transition">
+            🗺️ 고생대 초·중기 (분리된 대륙)
+          </button>
+          <button id="btnMergeLand" onclick="setContinentState('pangea')" class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+            🧩 고생대 말기 (초대륙 판게아 형성!)
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-300 text-center max-w-xl mt-4 leading-relaxed">
+          고생대 말기에 분산되어 있던 대륙들이 한데 모여 거대한 <b class="text-amber-400">초대륙 판게아(Pangaea)</b>를 형성했습니다. 이로 인해 해안선이 줄어들고 내륙 기후가 급격히 건조해졌습니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: ⑤ 대표 동물 -->
+    <section id="sec5" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold text-lg">
+          ⑤
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">대표 동물 (삼엽충 & 완족류)</h2>
+      </div>
+
+      <!-- Marine Life Aquarium View -->
+      <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-4 mb-8">
+        <div class="text-xs text-sky-300 font-bold mb-2 flex items-center gap-2">
+          <span>🌊 고생대 바닷속 생태계 수족관</span>
+          <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 text-[10px]">해양생물</span>
+        </div>
+
+        <svg viewBox="0 0 800 320" class="w-full h-auto select-none">
+          <!-- Deep Sea Background -->
+          <rect x="0" y="0" width="800" height="320" fill="url(#seaGrad)"/>
+          
+          <!-- Rocks & Seabed -->
+          <path d="M 0 260 Q 300 240 800 270 L 800 320 L 0 320 Z" fill="#1e293b"/>
+          <path d="M 120 270 Q 180 210 240 275 Z" fill="#334155"/>
+          <path d="M 520 280 Q 580 220 660 285 Z" fill="#334155"/>
+
+          <!-- Animated Trilobite Crawling on seabed -->
+          <g class="has-tooltip cursor-pointer animate-swim" transform="translate(300, 230)">
+            <ellipse cx="0" cy="0" rx="35" ry="22" fill="#d97706" stroke="#fef08a" stroke-width="2"/>
+            <!-- Cephalon (Head) -->
+            <path d="M -35 0 Q -20 -24 15 -22 Q 35 -8 35 0 Z" fill="#b45309"/>
+            <!-- Compound eyes -->
+            <circle cx="-15" cy="-10" r="4" fill="#fef08a"/>
+            <circle cx="-15" cy="10" r="4" fill="#fef08a"/>
+            <!-- Thorax Segments -->
+            <line x1="-8" y1="-20" x2="-8" y2="20" stroke="#78350f" stroke-width="2.5"/>
+            <line x1="5" y1="-18" x2="5" y2="18" stroke="#78350f" stroke-width="2.5"/>
+            <line x1="18" y1="-14" x2="18" y2="14" stroke="#78350f" stroke-width="2.5"/>
+            <!-- Jointed Legs underneath -->
+            <path d="M -10 20 L -15 30 M 0 20 L -2 30 M 10 18 L 12 28" stroke="#f59e0b" stroke-width="2"/>
+            
+            <!-- Tooltip -->
+            <foreignObject x="-70" y="-85" width="140" height="60" class="tooltip-box">
+              <div class="bg-slate-900/90 text-amber-300 text-[10px] p-2 rounded-lg border border-amber-400/40 shadow-xl">
+                <b>삼엽충</b><br>머리·가슴·꼬리 3부분!<br>석회질 등껍질 & 겹눈
+              </div>
+            </foreignObject>
+          </g>
+
+          <!-- Animated Brachiopod anchored on rock -->
+          <g class="has-tooltip cursor-pointer" transform="translate(200, 245)">
+            <!-- Pedicle stem -->
+            <path d="M 0 0 Q -10 20 -15 30" stroke="#f43f5e" stroke-width="6" stroke-linecap="round"/>
+            <!-- Shell opening & closing animation -->
+            <path d="M -25 -10 Q 0 -45 25 -10 Q 0 10 -25 -10 Z" fill="#e11d48" stroke="#fda4af" stroke-width="2"/>
+            <path d="M -15 -10 Q 0 -30 15 -10" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7"/>
+
+            <!-- Tooltip -->
+            <foreignObject x="-60" y="-80" width="120" height="50" class="tooltip-box">
+              <div class="bg-slate-900/90 text-rose-300 text-[10px] p-2 rounded-lg border border-rose-400/40 shadow-xl">
+                <b>완족류</b><br>조개 모양 단단한 껍질<br>해양 무척추동물
+              </div>
+            </foreignObject>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Detailed Descriptions Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Trilobite Detailed Card -->
+        <div class="bg-slate-900/80 p-5 rounded-xl border border-amber-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-amber-400 text-base">🦂 삼엽충 (Trilobite)</h3>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30">🌊 해양생물</span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            몸이 <b>머리 · 가슴 · 꼬리</b> 세 부분으로 나뉘며, 등면이 <b>석회질로 단단하게 굳어 있어</b> 화석으로 잘 남습니다. 발달된 겹눈을 갖고 있으며 종에 따라 몸 마디 수가 다양합니다.
+          </p>
+        </div>
+
+        <!-- Brachiopod Detailed Card -->
+        <div class="bg-slate-900/80 p-5 rounded-xl border border-rose-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-rose-400 text-base">🐚 완족류 (Brachiopod)</h3>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30">🌊 해양생물</span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            조개와 비슷하게 생긴 <b>단단한 석회질 껍질</b>을 가진 해양 무척추동물로, 바다 밑바닥의 바위나 모래에 줄기(줄자루)로 몸을 고정하여 살았습니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Thriving Reason Banner -->
+      <div class="mt-6 p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-indigo-950/40 border border-amber-400/30 text-center">
+        <h4 class="font-bold text-amber-300 text-xs sm:text-sm mb-1">🌟 이 생물들이 대번성할 수 있었던 이유!</h4>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          고생대 초·중기에는 <b class="text-amber-300">온난한 기후</b>와 더불어 대륙이 수몰되어 형성된 <b class="text-sky-300">넓고 얕은 바다</b>가 널리 펼쳐져, 해양 무척추동물이 번성하기 최적의 환경이었습니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 6: ⑥ 대표 식물 -->
+    <section id="sec6" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-lg">
+          ⑥
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">대표 식물 (양치식물 & 육상 진출)</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <!-- Fern Forest Growth Interactive Scene -->
+        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 flex flex-col items-center">
+          <div class="flex items-center justify-between w-full mb-3">
+            <span class="text-xs font-bold text-emerald-400">🌿 거대 양치식물 숲 형성 인터랙션</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px]">🌿 육상생물</span>
+          </div>
+
+          <svg viewBox="0 0 400 260" class="w-full h-auto select-none rounded-xl bg-slate-950">
+            <!-- Sky Background -->
+            <rect x="0" y="0" width="400" height="200" fill="#064e3b" opacity="0.4"/>
+            <rect x="0" y="200" width="400" height="60" fill="#14532d"/>
+
+            <!-- Animated Spores flying -->
+            <circle cx="100" cy="120" r="2" fill="#86efac" class="animate-ping"/>
+            <circle cx="200" cy="80" r="3" fill="#86efac" class="animate-ping" style="animation-delay: 0.5s;"/>
+            <circle cx="300" cy="140" r="2" fill="#86efac" class="animate-ping" style="animation-delay: 1s;"/>
+
+            <!-- Growing Fern Tree 1 -->
+            <g id="fernTree1" class="transition-transform duration-1000 origin-bottom transform scale-100">
+              <path d="M 120 210 Q 115 130 120 70" stroke="#451a03" stroke-width="10" stroke-linecap="round"/>
+              <circle cx="120" cy="70" r="28" fill="#15803d" opacity="0.8"/>
+              <path d="M 120 70 Q 70 50 50 80 M 120 70 Q 170 50 190 80" stroke="#22c55e" stroke-width="4" fill="none"/>
+            </g>
+
+            <!-- Growing Fern Tree 2 -->
+            <g id="fernTree2" class="transition-transform duration-1000 origin-bottom transform scale-100">
+              <path d="M 280 210 Q 285 120 280 50" stroke="#451a03" stroke-width="12" stroke-linecap="round"/>
+              <circle cx="280" cy="50" r="35" fill="#166534" opacity="0.8"/>
+              <path d="M 280 50 Q 220 30 200 60 M 280 50 Q 340 30 360 60" stroke="#4ade80" stroke-width="5" fill="none"/>
+            </g>
+
+            <text x="200" y="240" fill="#86efac" font-size="11" font-weight="bold" text-anchor="middle">
+              습한 대지 위 거대 양치식물(인목·봉인목) 관목 숲
+            </text>
+          </svg>
+
+          <button onclick="scatterSpores()" class="mt-4 px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20 hover:bg-emerald-400 transition">
+            ✨ 포자 날리기 & 숲 성장시키기
+          </button>
+        </div>
+
+        <!-- Evolutionary Transition Text -->
+        <div class="space-y-4">
+          <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-500/30 space-y-2">
+            <h3 class="font-bold text-emerald-400 text-sm">🌱 양치식물의 특징</h3>
+            <p class="text-xs text-slate-200 leading-relaxed">
+              꽃이나 씨앗 대신 <b>포자(Spore)로 번식</b>하며, 관다발이 발달하여 습한 환경에서 **높이 30m가 넘는 대형 관목 형태**로 높게 자랐습니다. (오늘날의 석탄 자원이 됨)
+            </p>
+          </div>
+
+          <div class="bg-slate-900/60 p-4 rounded-xl border border-teal-500/30 space-y-3">
+            <h3 class="font-bold text-teal-300 text-sm">🔄 앞뒤 시대 식물과의 비교 변화</h3>
+            
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 flex items-center gap-3">
+                <span class="text-slate-400 font-bold shrink-0">선캄브리아</span>
+                <span class="text-slate-300">바닷속 해조류 및 남세균 중심 (육상 식물 부재)</span>
+              </div>
+              
+              <div class="text-center text-emerald-400 font-bold text-sm">⬇️ 오존층 형성으로 육상 진출 가능! ⬇️</div>
+
+              <div class="p-2.5 rounded-lg bg-emerald-950/50 border border-emerald-500/40 flex items-center gap-3">
+                <span class="text-emerald-400 font-bold shrink-0">고생대</span>
+                <span class="text-emerald-200"><b>양치식물 중심</b>의 거대한 육상 식물 숲 형성</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: ⑦ 표준화석 -->
+    <section id="sec7" class="glass-card p-6 sm:p-10 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center font-bold text-lg">
+          ⑦
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-white">표준화석 & 촐싹맞은 삼엽충</h2>
+      </div>
+
+      <!-- Hyperactive Funny Scuttling Trilobite Interactive Canvas -->
+      <div class="relative bg-slate-950 p-6 rounded-2xl border border-purple-500/30 mb-8 overflow-hidden">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-xs font-bold text-purple-300">
+            🏃‍♂️ 촐싹맞게 육지로 튀어 오르는 삼엽충 애니메이션!
+          </h3>
+          <span class="text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+            버튼을 누르면 촐싹거립니다!
+          </span>
+        </div>
+
+        <div class="relative h-44 w-full bg-slate-900 rounded-xl overflow-hidden flex items-center px-4 border border-slate-800">
+          <!-- Ocean to Land background -->
+          <div class="absolute inset-0 bg-gradient-to-r from-sky-900/60 via-teal-900/40 to-amber-950/60"></div>
+
+          <!-- Sea / Land Boundary label -->
+          <span class="absolute left-6 bottom-3 text-[10px] text-sky-300 font-bold">🌊 깊은 바다</span>
+          <span class="absolute right-6 bottom-3 text-[10px] text-amber-300 font-bold">🏝️ 얕은 육지</span>
+
+          <!-- Scuttling Trilobite Wrapper -->
+          <div id="funnyTrilobite" class="relative z-10 cursor-pointer" onclick="triggerFunnyScuttle()">
+            <svg viewBox="0 0 70 45" class="w-16 h-11">
+              <ellipse cx="35" cy="22" rx="28" ry="16" fill="#f59e0b" stroke="#fef08a" stroke-width="2"/>
+              <circle cx="18" cy="14" r="3.5" fill="#000"/>
+              <circle cx="18" cy="30" r="3.5" fill="#000"/>
+              <!-- Googly Eyes Effect -->
+              <circle cx="17" cy="13" r="1" fill="#fff"/>
+              <circle cx="17" cy="29" r="1" fill="#fff"/>
+              <!-- Wiggling legs -->
+              <path d="M 25 38 L 20 44 M 35 38 L 35 45 M 45 38 L 50 44" stroke="#fde047" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <button onclick="triggerFunnyScuttle()" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg transition">
+            🤪 삼엽충 촐싹맞게 뛰놀기! (클릭)
+          </button>
+        </div>
+      </div>
+
+      <!-- Index Fossils & Fusulinid Details -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Trilobite Index Fossil -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30 space-y-2">
+          <h4 class="font-bold text-amber-400 text-sm">1. 삼엽충 (Trilobite)</h4>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            바다에 서식하였으며 마디로 이루어진 다리를 가짐. 고생대 전 기간에 걸쳐 대번성한 대표 표준화석입니다.
+          </p>
+        </div>
+
+        <!-- Fusulinid Index Fossil -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-2">
+          <h4 class="font-bold text-slate-200 text-sm">2. 방주충 (Fusulinid / 푸줄리나)</h4>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            방주충의 단단한 석회질 껍질 화석을 통해 당시 <b>얕고 온난한 바다 환경</b>이었음을 알려주는 환경 지표 화석입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Conditions of Index Fossils -->
+      <div class="space-y-3">
+        <h3 class="font-bold text-sm text-purple-300">📌 표준화석이 되기 위한 4가지 조건</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="p-3 bg-slate-900/90 rounded-xl border border-purple-500/30 text-center">
+            <div class="text-lg mb-1">⏱️</div>
+            <h5 class="font-bold text-xs text-purple-300">생존 기간이 짧을 것</h5>
+            <p class="text-[10px] text-slate-400 mt-0.5">특정 시대만 살아야 함</p>
+          </div>
+          <div class="p-3 bg-slate-900/90 rounded-xl border border-purple-500/30 text-center">
+            <div class="text-lg mb-1">🌍</div>
+            <h5 class="font-bold text-xs text-purple-300">분포 면적이 넓을 것</h5>
+            <p class="text-[10px] text-slate-400 mt-0.5">전 세계에서 발견돼야 함</p>
+          </div>
+          <div class="p-3 bg-slate-900/90 rounded-xl border border-purple-500/30 text-center">
+            <div class="text-lg mb-1">🐟</div>
+            <h5 class="font-bold text-xs text-purple-300">개체 수가 많을 것</h5>
+            <p class="text-[10px] text-slate-400 mt-0.5">화석 발견이 쉬워야 함</p>
+          </div>
+          <div class="p-3 bg-slate-900/90 rounded-xl border border-purple-500/30 text-center">
+            <div class="text-lg mb-1">⚡</div>
+            <h5 class="font-bold text-xs text-purple-300">진화 속도가 빠를 것</h5>
+            <p class="text-[10px] text-slate-400 mt-0.5">변화가 뚜렷해야 함</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: ⑧ 시대 말 사건 (대멸종 디스토피아) -->
+    <section id="sec8" class="glass-card p-6 sm:p-10 relative overflow-hidden border-2 border-red-500/40">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 border border-red-500/40 flex items-center justify-center font-bold text-lg">
+          ⑧
+        </span>
+        <h2 class="font-title text-2xl sm:text-3xl font-bold text-red-400">시대 말 사건: 페름기 대멸종 (End-Permian Dystopia)</h2>
+      </div>
+
+      <!-- Apocalyptic Dynamic Canvas & Eruption Scene -->
+      <div id="dystopiaBox" class="relative rounded-2xl overflow-hidden border border-red-900 bg-slate-950 p-4 mb-6 transition-colors duration-1000">
+        <!-- Volcanic Eruption SVG & Canvas overlay -->
+        <svg viewBox="0 0 800 320" class="w-full h-auto select-none">
+          <!-- Sky Gradient (Changes to red on trigger) -->
+          <rect id="volcanoSky" x="0" y="0" width="800" height="220" fill="#0f172a" class="transition-colors duration-1000"/>
+          
+          <!-- Siberian Traps Volcano Mountain -->
+          <path d="M 250 220 L 400 80 L 550 220 Z" fill="#261010"/>
+          <!-- Magma Vent inside crater -->
+          <path id="magmaVent" d="M 380 90 L 400 130 L 420 90 Z" fill="#ef4444" opacity="0.4" class="transition-all duration-700"/>
+          
+          <!-- Lava River Streams -->
+          <path id="lavaFlow1" d="M 400 90 Q 420 150 460 220" stroke="#f97316" stroke-width="0" fill="none" class="transition-all duration-1000"/>
+          <path id="lavaFlow2" d="M 390 90 Q 350 160 310 220" stroke="#ef4444" stroke-width="0" fill="none" class="transition-all duration-1000"/>
+
+          <!-- Landmass Pangaea merging background -->
+          <path d="M 0 200 Q 400 180 800 210 L 800 320 L 0 320 Z" fill="#1c0a0a"/>
+
+          <!-- Smoke / Gas Cloud (Animated) -->
+          <circle id="smoke1" cx="400" cy="60" r="25" fill="#451a1a" opacity="0.3" class="transition-all duration-1000"/>
+          <circle id="smoke2" cx="430" cy="40" r="35" fill="#290e0e" opacity="0.3" class="transition-all duration-1000"/>
+
+          <text id="dystopiaTitle" x="400" y="270" fill="#f87171" font-size="14" font-weight="extrabold" text-anchor="middle">
+            대멸종 트리거 버튼을 눌러 시베리아 트랩 마그마 분출을 발동하세요!
+          </text>
+        </svg>
+      </div>
+
+      <!-- APOCALYPTIC BUTTON TRIGGER -->
+      <div class="text-center mb-8">
+        <button id="btnDystopia" onclick="triggerApocalypse()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-black text-sm sm:text-base shadow-2xl shadow-red-600/50 transform hover:scale-105 active:scale-95 transition-all tracking-wider">
+          🌋 🔥 고생대 말 페름기 대멸종 발동! (클릭)
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-red-500/30">
+          <h4 class="font-bold text-red-400 text-sm mb-1">🧩 1. 초대륙 판게아(Pangaea) 형성</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            대륙이 하나로 뭉치며 해안선이 급격히 감소하였고, 내륙 지역이 극도로 덥고 메마른 건조 기후로 변화했습니다.
+          </p>
+        </div>
+
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-orange-500/30">
+          <h4 class="font-bold text-orange-400 text-sm mb-1">🌋 2. 시베리아 트랩(Siberian Traps) 분출</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            대규모 마그마 분출로 휘발유 원소, 열분해 가스, 온실가스가 대량 방출되어 지구 생물종의 약 **95% 이상이 멸종**하는 디스토피아가 되었습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with References and Student Authors -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-10 px-4 mt-20 text-slate-400 text-xs">
+    <div class="max-w-5xl mx-auto space-y-6">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- References -->
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-200 text-sm flex items-center gap-2">
+            <span>📚</span> 참고 자료 (References)
+          </h4>
+          <ul class="list-disc list-inside space-y-1 text-slate-400 leading-relaxed">
+            <li>[특종! 과학뉴스_관련 교과 중2 과학, 지구의 역사와 지각변동] “공룡 다음은 인간?” 6번째 지구 대멸종이 온다!</li>
+            <li>고등학교 통합과학 교과서, 국립중앙과학관 지질시대 생물 자료</li>
+            <li>디비피아 (DBpia) 학술 정보 Database</li>
+          </ul>
+        </div>
+
+        <!-- Authors -->
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-200 text-sm flex items-center gap-2">
+            <span>👨‍🎓</span> 만든 사람 (Authors)
+          </h4>
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+            <p class="font-bold text-emerald-400">4반 1모둠</p>
+            <p class="text-slate-300"><b>조원:</b> 박준영, 최근영, 소나훔, 한지원</p>
+            <p class="text-[11px] text-slate-500">고등학교 통합과학 수업 발표 프로젝트</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center pt-6 border-t border-slate-900 text-[11px] text-slate-500">
+        © 고생대의 환경과 생물 - 시각화 웹 애플리케이션 | 모든 그래픽은 인라인 SVG로 제작되었습니다.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- JavaScript Code Engine -->
+  <script>
+    // ==========================================
+    // 1. Web Audio API Synth SFX Engine
+    // ==========================================
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playSfx(type) {
+      if (!sfxEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else if (type === 'boing') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.linearRampToValueAtTime(600, now + 0.15);
+        osc.frequency.linearRampToValueAtTime(300, now + 0.3);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'volcano') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, now);
+        osc.frequency.linearRampToValueAtTime(40, now + 0.6);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.6);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      } else if (type === 'spore') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.2);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      }
+    }
+
+    document.getElementById('sfxToggle').addEventListener('click', () => {
+      sfxEnabled = !sfxEnabled;
+      document.getElementById('sfxIcon').textContent = sfxEnabled ? '🔊' : '🔇';
+      document.getElementById('sfxText').textContent = sfxEnabled ? '사운드 ON' : '사운드 OFF';
+    });
+
+    // Add generic click SFX to buttons
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => playSfx('click'));
+    });
+
+    // ==========================================
+    // 2. Hero Background Canvas Particles
+    // ==========================================
+    const heroCanvas = document.getElementById('heroCanvas');
+    const ctx = heroCanvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      heroCanvas.width = heroCanvas.parentElement.clientWidth;
+      heroCanvas.height = heroCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * heroCanvas.width;
+        this.y = Math.random() * heroCanvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedY = -(Math.random() * 0.8 + 0.2);
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+      update() {
+        this.y += this.speedY;
+        if (this.y < 0) {
+          this.y = heroCanvas.height;
+          this.x = Math.random() * heroCanvas.width;
+        }
+      }
+      draw() {
+        ctx.fillStyle = `rgba(52, 211, 153, ${this.opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateHeroCanvas() {
+      ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateHeroCanvas);
+    }
+    animateHeroCanvas();
+
+    // ==========================================
+    // 3. Section 1 Crawling Trilobite Animation
+    // ==========================================
+    const trilobite = document.getElementById('crawlingTrilobite');
+    let trilobitePos = 0;
+    setInterval(() => {
+      trilobitePos = (trilobitePos + 8) % 85;
+      trilobite.style.left = trilobitePos + '%';
+    }, 400);
+
+    // ==========================================
+    // 4. Section 2 Climate State Toggle
+    // ==========================================
+    function setClimate(state) {
+      const sky = document.getElementById('climateSky');
+      const sun = document.getElementById('climateSun');
+      const iceL = document.getElementById('iceSheetLeft');
+      const iceR = document.getElementById('iceSheetRight');
+      const title = document.getElementById('climateTitle');
+      const desc = document.getElementById('climateDesc');
+
+      const btnWarm = document.getElementById('btnWarm');
+      const btnIce1 = document.getElementById('btnIce1');
+      const btnIce2 = document.getElementById('btnIce2');
+
+      // Reset button styles
+      [btnWarm, btnIce1, btnIce2].forEach(b => {
+        b.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+      });
+
+      if (state === 'warm') {
+        btnWarm.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20 transition";
+        sky.setAttribute('fill', '#0f172a');
+        sun.setAttribute('fill', '#fbbf24');
+        sun.setAttribute('r', '30');
+        iceL.setAttribute('opacity', '0');
+        iceR.setAttribute('opacity', '0');
+        title.textContent = '온난하고 습윤한 대표 기후';
+        title.setAttribute('fill', '#34d399');
+        desc.textContent = '대체로 따뜻하고 습해 해양 무척추동물이 번성함';
+      } else if (state === 'ice1') {
+        btnIce1.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-sky-500 text-slate-950 shadow-lg shadow-sky-500/20 transition";
+        sky.setAttribute('fill', '#1e293b');
+        sun.setAttribute('fill', '#e2e8f0');
+        sun.setAttribute('r', '20');
+        iceL.setAttribute('opacity', '0.85');
+        iceR.setAttribute('opacity', '0.85');
+        title.textContent = '1차 대빙하기 (오르도비스기 말 - 약 4.4억 년 전)';
+        title.setAttribute('fill', '#38bdf8');
+        desc.textContent = '극심한 해수면 하강과 함께 해양 생물 대멸종 발생';
+      } else if (state === 'ice2') {
+        btnIce2.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 transition";
+        sky.setAttribute('fill', '#0f172a');
+        sun.setAttribute('fill', '#f1f5f9');
+        sun.setAttribute('r', '22');
+        iceL.setAttribute('opacity', '0.95');
+        iceR.setAttribute('opacity', '0.95');
+        title.textContent = '2차 대빙하기 (석탄기~페름기 - 약 3.6억~2.6억 년 전)';
+        title.setAttribute('fill', '#818cf8');
+        desc.textContent = '남반구 곤드와나 대륙 중심으로 지속된 장기 빙하기';
+      }
+    }
+
+    // ==========================================
+    // 5. Section 3 Sea Level Toggle
+    // ==========================================
+    function toggleSeaLevel(level) {
+      const water = document.getElementById('seaLevelWater');
+      const line = document.getElementById('seaLevelLine');
+      const status = document.getElementById('seaLevelStatus');
+
+      if (level === 'high') {
+        water.setAttribute('d', 'M 0 80 Q 150 80 280 80 L 280 240 L 0 240 Z');
+        line.setAttribute('y1', '80');
+        line.setAttribute('y2', '80');
+        status.textContent = '현재 해수면: 상승 상태 (넓은 얕은 바다 형성)';
+        status.setAttribute('fill', '#38bdf8');
+      } else {
+        water.setAttribute('d', 'M 0 150 Q 150 150 180 150 L 180 240 L 0 240 Z');
+        line.setAttribute('y1', '150');
+        line.setAttribute('y2', '150');
+        status.textContent = '현재 해수면: 하강 상태 (해양 서식지 감소)';
+        status.setAttribute('fill', '#f87171');
+      }
+    }
+
+    // ==========================================
+    // 6. Section 4 Continental Drift Simulator
+    // ==========================================
+    function setContinentState(state) {
+      const laurentia = document.getElementById('landLaurentia');
+      const gondwana = document.getElementById('landGondwana');
+      const baltica = document.getElementById('landBaltica');
+      const labelL = document.getElementById('labelL');
+      const labelG = document.getElementById('labelG');
+      const labelB = document.getElementById('labelB');
+      const status = document.getElementById('driftStatus');
+
+      const btnSplit = document.getElementById('btnSplitLand');
+      const btnMerge = document.getElementById('btnMergeLand');
+
+      if (state === 'split') {
+        btnSplit.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 transition";
+        btnMerge.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+
+        laurentia.setAttribute('d', 'M 80 60 Q 140 40 180 90 Q 150 140 70 120 Z');
+        gondwana.setAttribute('d', 'M 380 160 Q 480 120 520 220 Q 420 270 340 210 Z');
+        baltica.setAttribute('d', 'M 240 70 Q 290 50 310 100 Q 260 120 220 90 Z');
+
+        labelL.setAttribute('x', '120'); labelL.setAttribute('y', '90');
+        labelG.setAttribute('x', '430'); labelG.setAttribute('y', '200');
+        labelB.setAttribute('x', '260'); labelB.setAttribute('y', '85');
+
+        status.textContent = '고생대 초·중기: 대륙 분산 상태';
+        status.setAttribute('fill', '#fbbf24');
+      } else {
+        btnMerge.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 transition";
+        btnSplit.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+
+        // Merge into Pangaea shape
+        laurentia.setAttribute('d', 'M 220 100 Q 280 80 340 120 Q 300 170 210 150 Z');
+        gondwana.setAttribute('d', 'M 280 140 Q 380 110 420 210 Q 320 260 250 190 Z');
+        baltica.setAttribute('d', 'M 320 90 Q 370 70 390 120 Q 340 140 300 110 Z');
+
+        labelL.setAttribute('x', '260'); labelL.setAttribute('y', '120');
+        labelG.setAttribute('x', '330'); labelG.setAttribute('y', '190');
+        labelB.setAttribute('x', '350'); labelB.setAttribute('y', '100');
+
+        status.textContent = '고생대 말기: 초대륙 판게아(Pangaea) 완성!';
+        status.setAttribute('fill', '#ef4444');
+      }
+    }
+
+    // ==========================================
+    // 7. Section 6 Spore Scatter Animation
+    // ==========================================
+    function scatterSpores() {
+      playSfx('spore');
+      const t1 = document.getElementById('fernTree1');
+      const t2 = document.getElementById('fernTree2');
+
+      t1.classList.add('scale-125');
+      t2.classList.add('scale-125');
+
+      setTimeout(() => {
+        t1.classList.remove('scale-125');
+        t2.classList.remove('scale-125');
+      }, 1000);
+    }
+
+    // ==========================================
+    // 8. Section 7 Hyperactive Funny Trilobite
+    // ==========================================
+    function triggerFunnyScuttle() {
+      playSfx('boing');
+      const el = document.getElementById('funnyTrilobite');
+      el.classList.add('animate-hyper-scuttle');
+
+      setTimeout(() => {
+        el.classList.remove('animate-hyper-scuttle');
+      }, 3500);
+    }
+
+    // ==========================================
+    // 9. Section 8 End-Permian Apocalypse Trigger
+    // ==========================================
+    function triggerApocalypse() {
+      playSfx('volcano');
+
+      const body = document.body;
+      const sky = document.getElementById('volcanoSky');
+      const magma = document.getElementById('magmaVent');
+      const lava1 = document.getElementById('lavaFlow1');
+      const lava2 = document.getElementById('lavaFlow2');
+      const smoke1 = document.getElementById('smoke1');
+      const smoke2 = document.getElementById('smoke2');
+      const title = document.getElementById('dystopiaTitle');
+
+      // Screen Shake Effect
+      body.classList.add('shake-screen');
+      setTimeout(() => body.classList.remove('shake-screen'), 800);
+
+      // Eruption Animation States
+      sky.setAttribute('fill', '#450a0a');
+      magma.setAttribute('opacity', '1');
+      magma.setAttribute('fill', '#f97316');
+
+      lava1.setAttribute('stroke-width', '8');
+      lava2.setAttribute('stroke-width', '8');
+
+      smoke1.setAttribute('cy', '20');
+      smoke1.setAttribute('r', '60');
+      smoke1.setAttribute('opacity', '0.8');
+
+      smoke2.setAttribute('cy', '10');
+      smoke2.setAttribute('r', '80');
+      smoke2.setAttribute('opacity', '0.8');
+
+      title.textContent = '🔥 시베리아 트랩 대분출! 판게아 내륙 건조화 & 생물 95% 대멸종 디스토피아!';
+      title.setAttribute('fill', '#fef08a');
+    }
+  </script>
+</body>
+</html>
+```eoc
+
+### Self-Check Verification (자체 점검 결과)
+
+1. **글을 읽는 페이지가 아니라 보는 페이지인가?**: 네, 모든 설명 카드마다 고품질 인라인 SVG 그래픽, 인터랙티브 토글, 애니메이션 트랙을 적용했습니다.
+2. **외부 링크/이미지 없이 코드 인라인 SVG인가?**: 외부 이미지 URL을 완전히 배제하고 100% 인라인 SVG 및 HTML5 Canvas 코드만 사용했습니다.
+3. **이모지로 생물을 때우지 않았는가?**: 삼엽충(머리/가슴/꼬리 마디, 겹눈, 다리), 완족류(줄자루, 두 껍질), 방주충(단면 구조), 양치식물(거대 관목 포자 숲)을 상세한 SVG 어셋으로 직접 제작했습니다.
+4. **글은 3~4줄 이하의 짧은 문장인가?**: 한 카드당 핵심 요약문 2~3줄로 엄격히 제한하였습니다.
+5. **요구된 8가지 내용 요소가 빠짐없이 들어갔는가?**:
+   - ① 시대 구분 (5.41억~2.52억 년 전, 2.89억 년, 6.3% 파이 차트, 캄브리아기 폭발)
+   - ② 기후 (온난/습윤, 2번의 빙하기: ~4.4억 년 전 / ~3.6억~2.6억 년 전)
+   - ③ 대기·해양 환경 (O₂ 상승, CO₂ 감소, 오존층 차단, 해수면 높이 조절)
+   - ④ 수륙 분포 (대륙 이동 및 초대륙 판게아 합성 버튼)
+   - ⑤ 대표 동물 (삼엽충 3구조/석회질 등면/겹눈 + 완족류 + 🌊 해양생물 배지 + 번성 이유)
+   - ⑥ 대표 식물 (양치식물 포자 번식/대형 관목 + 선캄브리아 비교 + 🌿 육상생물 배지)
+   - ⑦ 표준화석 (삼엽충 + 방주충 + 표준화석 4가지 조건 + 촐싹맞게 튀어 오르는 삼엽충 애니메이션)
+   - ⑧ 시대 말 사건 (판게아 형성 + 시베리아 트랩 마그마/가스 방출 대멸종 디스토피아 버튼)
+6. **출처 및 만든 사람 표기**: 참고 자료 3가지 및 `4반 1모둠 (박준영, 최근영, 소나훔, 한지원)` 표기를 맨 아래 푸터에 명확히 기재했습니다.
